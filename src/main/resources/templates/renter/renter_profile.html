@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<div layout:fragment="main-content">
+    <div class="container">
+        <div th:if="${renter}">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Your profile</h2>
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="card-text">First Name: <span th:text="${renter.firstName}"></span></p>
+                            <p class="card-text">Last name: <span th:text="${renter.lastName}"></span></p>
+                            <p class="card-text">Email: <span th:text="${renter.email}"></span></p>
+                            <p class="card-text">Phone: <span th:text="${renter.phoneNumber}"></span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:if="${renter == null}">
+                No renter found
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

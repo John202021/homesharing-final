@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="~{page_layout/layout}">
+<head>
+    <title>Home Details</title>
+</head>
+<body>
+<div layout:fragment="main-content" class="container mt-4">
+    <div class="home-details-container">
+        <div th:if="${home != null}" class="table-container">
+            <table class="table table-bordered table-dark">
+                <thead>
+                <tr>
+                    <th colspan="2">Home Information</th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Owner</th>
+                    <td th:text="${home.homeOwner.firstName + ' ' + home.homeOwner.lastName}"></td>
+                </tr>
+                <tr>
+                    <th>Daily Price</th>
+                    <td th:text="${home.dailyPrice} + ' €'"></td>
+                </tr>
+                <tr>
+                    <th>Area/City</th>
+                    <td th:text="${home.characteristics.area}"></td>
+                </tr>
+                <tr>
+                    <th>Address</th>
+                    <td th:text="${home.characteristics.address}"></td>
+                </tr>
+                <tr>
+                    <th>Rooms</th>
+                    <td th:text="${home.characteristics.rooms}"></td>
+                </tr>
+                <tr>
+                    <th>Bathrooms</th>
+                    <td th:text="${home.characteristics.bathrooms}"></td>
+                </tr>
+                <tr>
+                    <th>Square Meters</th>
+                    <td th:text="${home.characteristics.squareMeters} + ' m²'"></td>
+                </tr>
+                <tr>
+                    <th>Floor</th>
+                    <td th:text="${home.characteristics.floor == 1 ? '1st' : (home.characteristics.floor == 2 ? '2nd' : (home.characteristics.floor == 3 ? '3rd' : (home.characteristics.floor + 'th')))}"></td></tr>
+                <tr>
+                    <th>Human Capacity</th>
+                    <td th:text="${home.characteristics.humanCapacity}"></td>
+                </tr>
+            </table>
+
+            <div th:if="${(param.hideButtons) == null}" class="mt-3 d-flex gap-2 justify-content-center">
+                <a href="/home" class="btn btn-secondary">Back to Homes</a>
+                <button sec:authorize="hasRole('ROLE_RENTER')" id="showRentForm" class="btn btn-primary">Rent this home</button>
+            </div>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_RENTER')" th:class="rental-form + ${(showForm == null or !showForm) ? ' hidden' : ''}" id="rentForm">
+            <form th:action="@{'/home/' + ${home.id} + '/rent'}" method="post" th:object="${rentalRequest}">
+                <div>
+                    <label for="startDate" class="form-label">For when?</label>
+                    <input type="date" class="form-control" id="startDate" name="startDate" th:field="*{startDate}" required>
+                    <span th:if="${#fields.hasErrors('startDate')}" th:errors="*{startDate}" class="error"></span>
+                </div>
+                <div>
+                    <label for="endDate" class="form-label">Until when?</label>
+                    <input type="date" class="form-control" id="endDate" name="endDate" th:field="*{endDate}" required>
+                    <span th:if="${#fields.hasErrors('endDate')}" th:errors="*{endDate}" class="error"></span>
+                </div>
+                <div>
+                    <label for="numberOfPeople" class="form-label">Number of People</label>
+                    <input type="number" class="form-control" id="numberOfPeople" name="numberOfPeople"
+                           th:field="*{numberOfPeople}" min="1" th:max="${home.characteristics.humanCapacity}" required>
+                    <span th:if="${#fields.hasErrors('numberOfPeople')}" th:errors="*{numberOfPeople}" class="error"></span>
+                </div>
+                <div>
+                    <div class="w-100">Total cost:</div>
+                    <div id="totalCost">---</div>
+                </div>
+                <button type="submit" class="btn btn-primary col-full">Submit Rental</button>
+            </form>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const totalCostDisplay = document.getElementById("totalCost");
+                const dailyPrice = Number([[${home.dailyPrice}]]) || 0;
+                const startDateInput = document.getElementById("startDate");
+                const endDateInput = document.getElementById("endDate");
+
+                function calculateTotalCost() {
+                    const startDate = new Date(startDateInput.value);
+                    const endDate = new Date(endDateInput.value);
+
+                    if (!isNaN(startDate) && !isNaN(endDate) && endDate >= startDate) {
+                        // Calculate the difference in days and add 1 to include the start date
+                        const days = Math.ceil((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+                        const totalCost = dailyPrice * days;
+                        totalCostDisplay.textContent = totalCost + " €";
+                    } else {
+                        totalCostDisplay.textContent = "---";
+                    }
+                }
+
+                startDateInput.addEventListener("input", calculateTotalCost);
+                endDateInput.addEventListener("input", calculateTotalCost);
+            });
+        </script>
+
+
+        <script>
+            document.getElementById('showRentForm').addEventListener('click', function () {
+                const rentForm = document.getElementById('rentForm');
+                rentForm.classList.remove('hidden');
+            });
+        </script>
+    </div>
+
+    <div th:if="${home == null}" class="alert alert-danger">
+        Home details not available.
+    </div>
+</div>
+
+</body>
+</html>

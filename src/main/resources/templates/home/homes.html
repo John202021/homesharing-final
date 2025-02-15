@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="~{page_layout/layout}">
+<head>
+    <title>Homes</title>
+</head>
+<body>
+<div layout:fragment="main-content" class="container">
+    <div th:if="${not #lists.isEmpty(homes)}" class="table-container">
+        <table class="table table-dark">
+            <thead>
+            <tr>
+                <th>Owner</th>
+                <th>Price (Daily)</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="home : ${homes}">
+                <td th:text="${home.homeOwner.firstName}"></td>
+                <td th:text="${home.dailyPrice} + ' €'"></td>
+                <td th:text="${home.accepted == null ? 'Pending' : (home.accepted ? 'Accepted' : 'Rejected')}"></td>
+                <td>
+                    <a th:href="@{'/home/' + ${home.id}}" class="btn btn-info btn-sm">Details</a>
+                    <a th:if="${#authentication.principal.id == home.homeOwner.id}"
+                       th:href="@{'/home/edit/' + ${home.id}}"
+                       class="btn btn-warning btn-sm">
+                        Edit
+                    </a>
+                    <form th:if="${#authentication.principal.id == home.homeOwner.id}" th:action="@{'/home/' + ${home.id}}" method="post" style="display: inline;">
+                        <input type="hidden" name="_method" value="delete"/>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to delete this home?');">
+                            Delete
+                        </button>
+                    </form>
+
+                    <form th:if="${home.accepted == null}" th:action="@{'/home/accept/' + ${home.id}}" method="post" style="display: inline;" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <input type="hidden" name="_method" value="patch"/>
+                        <button type="submit" class="btn btn-success btn-sm"
+                                onclick="return confirm('Are you sure you want to accept this home?');">
+                            Accept
+                        </button>
+                    </form>
+                    <form th:if="${home.accepted == null}" th:action="@{'/home/decline/' + ${home.id}}" method="post" style="display: inline;" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <input type="hidden" name="_method" value="patch"/>
+                        <button type="submit" class="btn btn-danger btn-sm"
+                                onclick="return confirm('Are you sure you want to decline this home?');">
+                            Decline
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div th:if="${#lists.isEmpty(homes)}" class="alert alert-warning">
+        No Homes found!
+    </div>
+    <a sec:authorize="hasRole('ROLE_HOMEOWNER')" href="/home/new" class="btn btn-primary mt-3" role="button">Add New Home</a>
+</div>
+</body>
+</html>

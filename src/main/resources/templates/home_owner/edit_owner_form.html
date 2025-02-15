@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org/"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+      layout:decorate="~{page_layout/layout}">
+<head>
+    <title>Edit Owner Profile</title>
+</head>
+<body>
+    <div layout:fragment="main-content" class="container">
+        <h1 class="h3 mb-3 fw-normal">Edit Owner Profile</h1>
+        <!-- The form binds to the "homeowner" model attribute -->
+        <form action="#" th:action="@{'/homeowner/edit'}" th:object="${homeowner}" method="post"
+              class="edit-form">
+
+            <input type="hidden" th:field="*{id}">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" class="form-control" id="firstName" th:field="*{firstName}"
+                       placeholder="Enter your first name">
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" class="form-control" id="lastName" th:field="*{lastName}"
+                       placeholder="Enter your last name">
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email address</label>
+                <input type="email" class="form-control" id="email" th:field="*{email}" placeholder="Enter your email">
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number</label>
+                <input type="text" class="form-control" id="phoneNumber" th:field="*{phoneNumber}"
+                       placeholder="Enter your phone number">
+                <span th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="birthDate">Birth Date</label>
+                <input type="date" class="form-control" id="birthDate" th:field="*{birthDate}">
+                <span th:if="${#fields.hasErrors('birthDate')}" th:errors="*{birthDate}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="address">Your Address</label>
+                <input type="text" class="form-control" id="address" th:field="*{address}"
+                       placeholder="Enter your address">
+                <span th:if="${#fields.hasErrors('address')}" th:errors="*{address}" class="error"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="area">Area/City</label>
+                <input type="text" class="form-control" id="area" th:field="*{area}"
+                       placeholder="Enter your area or city">
+                <span th:if="${#fields.hasErrors('area')}" th:errors="*{area}" class="error"></span>
+            </div>
+            <button type="submit" class="btn btn-primary py-2 col-full">Save Changes</button>
+        </form>
+        <div class="mt-3">
+            <a href="/users">Back to Users</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{page_layout/layout}">
+<head>
+    <!-- The page title now uses the formTitle variable -->
+    <title th:text="${formTitle}">New Home</title>
+</head>
+<body>
+<div layout:fragment="main-content" class="container mt-4 text-start">
+    <!-- Display a dynamic title -->
+    <h4 th:text="${formTitle}">Provide the information for the new home.</h4>
+    <!-- Use the actionUrl variable to set the form's action -->
+    <form th:action="@{${actionUrl}}" th:object="${home}" class="newhome-form" method="post">
+        <!-- Home fields -->
+        <input type="hidden" th:field="*{id}" />
+        <div class="form-group">
+            <label for="dailyPrice">Daily Price</label>
+            <input type="number" class="form-control" id="dailyPrice" th:field="*{dailyPrice}" min="0" required>
+            <span th:if="${#fields.hasErrors('dailyPrice')}" th:errors="*{dailyPrice}" class="error"></span>
+        </div>
+
+        <!-- HomeCharacteristics fields -->
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" th:field="*{characteristics.address}" required>
+            <span th:if="${#fields.hasErrors('characteristics.address')}" th:errors="*{characteristics.address}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="area">Area</label>
+            <input type="text" class="form-control" id="area" th:field="*{characteristics.area}" required>
+            <span th:if="${#fields.hasErrors('characteristics.area')}" th:errors="*{characteristics.area}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="rooms">Rooms</label>
+            <input type="number" class="form-control" id="rooms" th:field="*{characteristics.rooms}" min="1" required>
+            <span th:if="${#fields.hasErrors('characteristics.rooms')}" th:errors="*{characteristics.rooms}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="bathrooms">Bathrooms</label>
+            <input type="number" class="form-control" id="bathrooms" th:field="*{characteristics.bathrooms}" min="0" required>
+            <span th:if="${#fields.hasErrors('characteristics.bathrooms')}" th:errors="*{characteristics.bathrooms}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="squareMeters">Square Meters</label>
+            <input type="number" class="form-control" id="squareMeters" th:field="*{characteristics.squareMeters}" min="1" required>
+            <span th:if="${#fields.hasErrors('characteristics.squareMeters')}" th:errors="*{characteristics.squareMeters}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="floor">Floor</label>
+            <input type="number" class="form-control" id="floor" th:field="*{characteristics.floor}" min="-10" required>
+            <span th:if="${#fields.hasErrors('characteristics.floor')}" th:errors="*{characteristics.floor}" class="error"></span>
+        </div>
+        <div class="form-group">
+            <label for="humanCapacity">Human Capacity</label>
+            <input type="number" class="form-control" id="humanCapacity" th:field="*{characteristics.humanCapacity}" min="1" required>
+            <span th:if="${#fields.hasErrors('characteristics.humanCapacity')}" th:errors="*{characteristics.humanCapacity}" class="error"></span>
+        </div>
+
+        <!-- Button text is adjusted based on the form's purpose -->
+        <button class="btn btn-primary py-2 col-full" type="submit"
+                th:text="${formTitle.startsWith('Edit') ? 'Update Home' : 'Add Home'}">Submit</button>
+    </form>
+</div>
+</body>
+</html>
