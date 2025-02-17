@@ -99,6 +99,7 @@ public class HomeController {
     @Secured({"ROLE_ADMIN", "ROLE_HOMEOWNER"})
     @GetMapping("/pending")
     public String getPendingHomes(Model model) {
+        model.addAttribute("viewingHomeRequests", true);
         try {
             List<Home> homes = homeService.getPendingHomes();
             model.addAttribute("title", "Pending Home Requests");
@@ -288,8 +289,7 @@ public class HomeController {
         }
     }
 
-
-    //getRentalsByHome
+    @Secured("ROLE_HOMEOWNER")
     @GetMapping("/{home_id}/rentals")
     public String getRentalsByHome(@PathVariable int home_id, Model model, RedirectAttributes redirectAttributes) {
         try {

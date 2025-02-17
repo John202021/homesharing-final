@@ -20,7 +20,7 @@
                 <th th:if="${viewingMyRentals == null and viewingMyRentalsRequests == null}">Renter</th>
                 <th>Home</th>
                 <th>People</th>
-                <th>Price (€)</th>
+                <th>Price</th>
                 <th th:if="${viewingMyRentals == null}">Status</th>
                 <th sec:authorize="hasRole('ROLE_ADMIN') or hasRole('ROLE_HOMEOWNER')">Actions</th>
             </tr>
@@ -31,7 +31,7 @@
                 <td th:if="${viewingMyRentals == null and viewingMyRentalsRequests == null}" th:text="${rental.renter.firstName + ' ' + rental.renter.lastName}"></td>
                 <td><a th:href="@{'/home/' + ${rental.home.id} + '?hideButtons'}" th:text="${rental.home.characteristics.area + ', ' + rental.home.characteristics.address}" target="_blank"></a></td>
                 <td th:text="${rental.numberOfPeople}"></td>
-                <td th:text="${rental.totalPrice}"></td>
+                <td th:text="${rental.totalPrice + '€'}"></td>
                 <td th:if="${viewingMyRentals == null}" th:text="${rental.requestProcessedAt == null ? 'Pending' : (rental.accepted ? 'Accepted' : 'Declined')}"></td><td>
                 <form sec:authorize="hasRole('ROLE_ADMIN')" th:action="@{'/rental/' + ${rental.id}}" method="post"
                       style="display: inline;">
