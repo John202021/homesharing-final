@@ -149,8 +149,10 @@ public class UserController {
             User user = userService.getUser(user_id);
 
             if (user instanceof Renter) {
+                System.out.println("DELETING RENTER __________________________________________________________");
                 renterService.deleteRenter(user.getId());
             } else if (user instanceof HomeOwner) {
+                System.out.println("DELETING OWNER __________________________________________________________");
                 homeOwnerService.deleteHomeOwner(user.getId());
             } else {
                 redirectAttributes.addFlashAttribute("errorMessage", "You can't delete an admin");

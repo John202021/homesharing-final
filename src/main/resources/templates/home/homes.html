@@ -9,9 +9,6 @@
 </head>
 <body>
 <div layout:fragment="main-content" class="container">
-    <div>
-        <h2 th:if="${title}" th:text="${title}" class="mb-4"></h2>
-    </div>
     <div th:if="${not #lists.isEmpty(homes)}" class="table-container">
         <table class="table table-dark">
             <thead>
@@ -62,8 +59,7 @@
         </table>
     </div>
     <div th:if="${#lists.isEmpty(homes)}" class="alert alert-warning">
-        <div th:if="${viewingHomeRequests == null}">No homes found.</div>
-        <div th:if="${viewingHomeRequests}">No home requests found.</div>
+        No Homes found!
     </div>
     <a sec:authorize="hasRole('ROLE_HOMEOWNER')" href="/home/new" class="btn btn-primary mt-3" role="button">Add New Home</a>
 </div>

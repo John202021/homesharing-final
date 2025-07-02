@@ -6,6 +6,7 @@ import gr.hua.dit.HomeSharing.entities.Rental;
 import gr.hua.dit.HomeSharing.repositories.HomeOwnerRepository;
 import gr.hua.dit.HomeSharing.repositories.HomeRepository;
 import gr.hua.dit.HomeSharing.repositories.RentalRepository;
+import gr.hua.dit.HomeSharing.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.security.web.firewall.RequestRejectedException;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ public class HomeOwnerService {
     private HomeOwnerRepository homeOwnerRepository;
     private RentalRepository rentalRepository;
     private HomeRepository homeRepository;
+    private UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
     public HomeOwnerService(HomeOwnerRepository homeOwnerRepository, RentalRepository rentalRepository, HomeRepository homeRepository, BCryptPasswordEncoder passwordEncoder) {
@@ -59,24 +61,28 @@ public class HomeOwnerService {
 
     @Transactional
     public void deleteHomeOwner(int id) {
-        // First, find the home owner
+        System.out.println(">> deleteHomeOwner: starting for owner id=" + id);
+
         HomeOwner homeOwner = homeOwnerRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("HomeOwner not found with id: " + id));
+            .orElseThrow(() -> new RuntimeException("HomeOwner not found with id: " + id));
+        System.out.println(">> deleteHomeOwner: fetched HomeOwner, user.id=" + homeOwner.getId());
 
-         List<Home> homes = homeOwner.getHomes();
+        List<Home> homes = homeOwner.getHomes();
+        System.out.println(">> deleteHomeOwner: number of homes = " + homes.size());
 
-        // Delete all homes associated with the home owner
         for (Home home : homes) {
-            // Find and delete all rentals for each home
+            System.out.println(">> deleteHomeOwner: processing home.id=" + home.getId());
             List<Rental> homeRentals = rentalRepository.findByHomeId(home.getId());
+            System.out.println(">> deleteHomeOwner:    found rentals = " + homeRentals.size());
             rentalRepository.deleteAll(homeRentals);
+            System.out.println(">> deleteHomeOwner:    deleted rentals for home.id=" + home.getId());
 
-            // Delete the home
             homeRepository.deleteById(home.getId());
+            System.out.println(">> deleteHomeOwner:    deleted home.id=" + home.getId());
         }
 
-        // Now delete the home owner
-        homeOwnerRepository.deleteById(id);
+        userRepository.deleteById(homeOwner.getId().longValue());
+        System.out.println(">> deleteHomeOwner: deleted HomeOwner row id=" + id);
     }
 
     @Transactional

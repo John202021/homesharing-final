@@ -42,23 +42,22 @@ public class IndexController {
         if (!renterService.getRenters().isEmpty()) {
             return;
         }
-
-        // Creating Renters
-        User newRenter = userService.registerUser(new Renter("Nikos", "Io", "nikos@gmail.com", "12345678", "6934567890", birthDate));
+         // Creating Renters
+        User newRenter = userService.registerUser(new Renter("Anna", "Mi", "anna@gmail.com", "12345678", "6934567890", birthDate));
         User anotherRenter = userService.registerUser(new Renter("John", "Ts", "john@gmail.com", "87654321", "6987654321", birthDate));
         User thirdRenter = userService.registerUser(new Renter("Alex", "Ar", "alex@gmail.com", "1211223344", "6987654323", birthDate));
         User fourthRenter = userService.registerUser(new Renter("George", "Oik", "george@gmail.com", "11223344", "6987654325", birthDate));
 
         // Creating HomeOwners
-        User firstHomeOwner = userService.registerUser(new HomeOwner("Nikos", "In", "nikos_home@gmail.com", "22345678", "6987654326", birthDate, "Athens", "Downtown"));
+        User firstHomeOwner = userService.registerUser(new HomeOwner("Anna", "Mi", "anna_home@gmail.com", "22345678", "6987654326", birthDate, "Athens", "Downtown"));
         User secondHomeOwner = userService.registerUser(new HomeOwner("John", "Ts", "john_home@gmail.com", "98765432", "6987654327", birthDate, "Thessaloniki", "Downtown"));
         User thirdHomeOwner = userService.registerUser(new HomeOwner("Alex", "Ar", "alex_home@gmail.com", "2211223344", "6987654328", birthDate, "Patra", "Downtown"));
 
         // Creating Homes for Nikos
-        Home nikosHome1 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("12 Ermou Street", "Athens", 3, 2, 120, 1, 4), 50));
-        Home nikosHome2 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("34 Kifisias Avenue", "Athens", 2, 1, 80, 1, 3), 40));
-        Home nikosHome3 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("56 Panepistimiou Street", "Athens", 4, 3, 140, 2, 6), 60));
-        Home nikosHome4 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("78 Stadiou Street", "Athens", 3, 2, 110, 1, 5), 55));
+        Home annaHome1 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("12 Ermou Street", "Athens", 3, 2, 120, 1, 4), 50));
+        Home annaHome2 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("34 Kifisias Avenue", "Athens", 2, 1, 80, 1, 3), 40));
+        Home annaHome3 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("56 Panepistimiou Street", "Athens", 4, 3, 140, 2, 6), 60));
+        Home annaHome4 = homeOwnerService.addHomeForOwner(firstHomeOwner.getId(), new Home(new HomeCharacteristics("78 Stadiou Street", "Athens", 3, 2, 110, 1, 5), 55));
 
         // Creating Homes for John
         Home johnHome1 = homeOwnerService.addHomeForOwner(secondHomeOwner.getId(), new Home(new HomeCharacteristics("78 Aristotelous Square", "Thessaloniki", 3, 2, 110, 2, 5), 55));
@@ -73,28 +72,28 @@ public class IndexController {
         Home alexHome4 = homeOwnerService.addHomeForOwner(thirdHomeOwner.getId(), new Home(new HomeCharacteristics("150 Riga Feraiou Street", "Patra", 3, 2, 100, 1, 4), 50));
 
         // Accepting Home Requests
-        homeService.acceptHomeRequest(nikosHome1.getId());
-        homeService.acceptHomeRequest(nikosHome2.getId());
-        homeService.acceptHomeRequest(nikosHome3.getId());
+        homeService.acceptHomeRequest(annaHome1.getId());
+        homeService.acceptHomeRequest(annaHome2.getId());
+        homeService.acceptHomeRequest(annaHome3.getId());
         homeService.acceptHomeRequest(johnHome1.getId());
         homeService.acceptHomeRequest(johnHome2.getId());
         homeService.acceptHomeRequest(johnHome3.getId());
         homeService.acceptHomeRequest(alexHome1.getId());
         homeService.acceptHomeRequest(alexHome2.getId());
         homeService.acceptHomeRequest(alexHome3.getId());
-        homeService.acceptHomeRequest(nikosHome4.getId());
+        homeService.acceptHomeRequest(annaHome4.getId());
         homeService.acceptHomeRequest(johnHome4.getId());
         homeService.acceptHomeRequest(alexHome4.getId());
 
         // Creating Rentals
         Rental rental1 = new Rental(LocalDate.of(2025, 1, 5), LocalDate.of(2025, 1, 6), 5, 50);
-        renterService.rentHome(newRenter.getId(), nikosHome1.getId(), rental1);
+        renterService.rentHome(newRenter.getId(), annaHome1.getId(), rental1);
 
         Rental rental2 = new Rental(LocalDate.of(2025, 1, 7), LocalDate.of(2025, 1, 10), 3, 90);
-        renterService.rentHome(anotherRenter.getId(), nikosHome2.getId(), rental2);
+        renterService.rentHome(anotherRenter.getId(), annaHome2.getId(), rental2);
 
         Rental rental3 = new Rental(LocalDate.of(2025, 1, 2), LocalDate.of(2025, 1, 4), 5, 180);
-        renterService.rentHome(thirdRenter.getId(), nikosHome3.getId(), rental3);
+        renterService.rentHome(thirdRenter.getId(), annaHome3.getId(), rental3);
 
         Rental rental4 = new Rental(LocalDate.of(2025, 1, 5), LocalDate.of(2025, 1, 6), 5, 80);
         renterService.rentHome(fourthRenter.getId(), johnHome1.getId(), rental4);
@@ -115,7 +114,7 @@ public class IndexController {
         renterService.rentHome(newRenter.getId(), alexHome3.getId(), rental9);
 
         Rental rental10 = new Rental(LocalDate.of(2025, 6, 1), LocalDate.of(2025, 6, 4), 3, 95);
-        renterService.rentHome(anotherRenter.getId(), nikosHome4.getId(), rental10);
+        renterService.rentHome(anotherRenter.getId(), annaHome4.getId(), rental10);
 
         Rental rental11 = new Rental(LocalDate.of(2025, 7, 1), LocalDate.of(2025, 7, 4), 3, 95);
         renterService.rentHome(thirdRenter.getId(), johnHome4.getId(), rental11);

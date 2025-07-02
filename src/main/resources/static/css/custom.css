@@ -14,7 +14,8 @@ a:hover {
 .btn-secondary:hover,
 .btn-secondary:focus {
     color: #333;
-    text-shadow: none; /* Prevent inheritance from `body` */
+    text-shadow: none;
+    /* Prevent inheritance from `body` */
     background-color: #fff;
     border: .05rem solid #fff;
 }
@@ -67,7 +68,7 @@ body {
     border-bottom-color: rgba(255, 255, 255, .25);
 }
 
-.nav-masthead .nav-link + .nav-link {
+.nav-masthead .nav-link+.nav-link {
     margin-left: 1rem;
 }
 
@@ -80,6 +81,7 @@ body {
     .masthead-brand {
         float: left;
     }
+
     .nav-masthead {
         float: right;
     }
@@ -106,7 +108,7 @@ body {
     min-width: 25%;
 }
 
-.form-signin a{
+.form-signin a {
     max-width: 330px;
     padding: 1rem;
     color: black;
@@ -205,4 +207,162 @@ body {
 .filters-container label {
     font-size: smaller;
     margin-bottom: 5px;
+}
+
+:root {
+    --ui-bg-base: #1f1f24;
+    /* page background               */
+    --ui-bg-card: #262730;
+    /* panel / card background       */
+    --ui-bg-card-dk: #21222b;
+    /* slightly darker for headers   */
+    --ui-accent: #0d6efd;
+    /* primary accent (Bootstrap blue) */
+    --ui-accent-soft: #1a82ff;
+    /* lighter on :hover             */
+    --ui-text-light: #f8f9fa;
+    /* main light text               */
+    --ui-text-muted: #adb5bd;
+    /* muted text                    */
+    --ui-radius-lg: 1rem;
+    /* big rounded corners           */
+    --ui-shadow-lg: 0 8px 24px rgba(0, 0, 0, .45);
+}
+
+/* ---------- 2.  Global tweaks ---------- */
+html,
+body {
+    background: var(--ui-bg-base);
+    color: var(--ui-text-light);
+}
+
+/* Smarter underline & colour for nav links */
+.nav-masthead .nav-link {
+    color: var(--ui-text-muted);
+    transition: color .2s;
+}
+
+.nav-masthead .nav-link:hover,
+.nav-masthead .nav-link:focus,
+.nav-masthead .nav-link.active {
+    color: #fff;
+    border-bottom-color: var(--ui-accent);
+}
+
+/* ---------- 3.  Re-skin your “cards” ---------- */
+.table-container,
+.filters-container,
+.rental-form,
+.register-form,
+.newhome-form,
+.edit-form {
+    background: var(--ui-bg-card);
+    border: 1px solid rgba(255, 255, 255, .06);
+    border-radius: var(--ui-radius-lg);
+    box-shadow: var(--ui-shadow-lg);
+}
+
+/* Fade-in on first paint (optional, respects reduced-motion) */
+@media (prefers-reduced-motion: no-preference) {
+
+    .table-container,
+    .filters-container {
+        animation: fadeSlide .6s ease .05s both;
+    }
+}
+
+@keyframes fadeSlide {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+/* ---------- 4.  Table polish ---------- */
+.table thead {
+    background: var(--ui-bg-card-dk);
+    border-bottom: 2px solid var(--ui-accent);
+}
+
+.table tbody tr {
+    transition: background .15s;
+}
+
+.table tbody tr:hover {
+    background: rgba(13, 110, 253, .05);
+}
+
+/* ---------- 5.  Form elements inside dark cards ---------- */
+.filters-container input,
+.filters-container select,
+.rental-form input,
+.rental-form select {
+    background: var(--ui-bg-card-dk);
+    color: var(--ui-text-light);
+    border: 1px solid rgba(255, 255, 255, .12);
+}
+
+.filters-container input:focus,
+.filters-container select:focus,
+.rental-form input:focus,
+.rental-form select:focus {
+    border-color: var(--ui-accent);
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+}
+
+/* ---------- 6.  Buttons ---------- */
+.btn-primary {
+    background: var(--ui-accent);
+    border-color: var(--ui-accent);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+    background: var(--ui-accent-soft);
+    border-color: var(--ui-accent-soft);
+    box-shadow: 0 4px 12px rgba(26, 130, 255, .4);
+}
+
+.btn-secondary {
+    /* keep your original colours but add a soft shadow */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .25);
+}
+
+.auth-btn {
+  background: transparent;
+  color: var(--ui-text-light);
+  font-weight: 600;
+  padding: .35rem .9rem;
+  border: 1px solid transparent;
+  border-radius: .45rem;
+  transition: color .15s, background .15s, border-color .2s;
+}
+
+.auth-btn:hover,
+.auth-btn:focus {
+  color: var(--ui-accent);
+}
+
+.nav-link:has(.auth-btn):hover {
+  border-bottom-color: transparent;
+}
+
+.auth-btn:active {
+  transform: translateY(1px);        /* subtle press effect */
+}
+
+.nav-masthead {
+  align-items: center;       /* cross-axis align */
+}
+
+/* 2 ▸ give the ‘ghost’ buttons the same slim padding
+      the anchors already use (.25rem top/btm)            */
+.nav-masthead .auth-btn {
+  padding: .25rem .2rem;     /* ↓ from .35rem       */
+  line-height: 1;            /* prevents extra height */
 }

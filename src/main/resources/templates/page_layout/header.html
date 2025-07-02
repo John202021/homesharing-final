@@ -1,38 +1,46 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+
 <body>
 
-<header class="masthead mb-auto" th:fragment="header">
-    <div class="inner">
-        <nav class="nav nav-masthead justify-content-center w-100">
-            <a class="nav-link" href="/home" data-path="/home">Homes</a>
-            <a sec:authorize="hasRole('ROLE_RENTER')" class="nav-link" href="/rental/myrentals" data-path="/rental/myrentals">My Rentals</a>
-            <a sec:authorize="hasRole('ROLE_RENTER')" class="nav-link" href="/renter/me" data-path="/renter/me">Profile</a>
-            <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/home/ownedhomes" data-path="/home/ownedhomes">Owned Homes</a>
-            <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/homeowner/rental-requests" data-path="/homeowner/rental-requests">Rental Requests</a>
-            <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/homeowner/upcoming-rentals" data-path="/homeowner/upcoming-rentals">Upcoming Rentals</a>
-            <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/homeowner/me" data-path="/homeowner/me">Profile</a>
-            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/home/pending" data-path="/home/pending">Home Requests</a>
-            <a sec:authorize="hasRole('ROLE_ADMIN')"  class="nav-link" href="/rental" data-path="/rental">Rentals</a>
-            <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/users" data-path="/users">Users</a>
-            <a sec:authorize="!isAuthenticated()"  class="nav-link">
-                <a  class="btn btn-primary me-2" href="/login">Login</a>
-                <a  class="btn btn-primary" href="/register-renter">Register</a>
-            </a>
-            <a sec:authorize="isAuthenticated()"  class="nav-link">
-                <form th:action="@{/logout}" method="post">
-                    <input type="submit"  class="btn btn-primary" value="Sign Out"/>
-                </form>
-            </a>
-        </nav>
-    </div>
-</header>
+    <header class="masthead mb-auto" th:fragment="header">
+        <div class="inner">
+            <nav class="nav nav-masthead justify-content-center w-100">
+                <a class="nav-link" href="/home" data-path="/home">Homes</a>
+                <a sec:authorize="hasRole('ROLE_RENTER')" class="nav-link" href="/rental/myrentals"
+                    data-path="/rental/myrentals">My Rentals</a>
+                <a sec:authorize="hasRole('ROLE_RENTER')" class="nav-link" href="/renter/me"
+                    data-path="/renter/me">Profile</a>
+                <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/home/ownedhomes"
+                    data-path="/home/ownedhomes">Owned Homes</a>
+                <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/homeowner/rental-requests"
+                    data-path="/homeowner/rental-requests">Rental Requests</a>
+                <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/homeowner/upcoming-rentals"
+                    data-path="/homeowner/upcoming-rentals">Upcoming Rentals</a>
+                <a sec:authorize="hasRole('ROLE_HOMEOWNER')" class="nav-link" href="/homeowner/me"
+                    data-path="/homeowner/me">Profile</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/home/pending"
+                    data-path="/home/pending">Home Requests</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/rental" data-path="/rental">Rentals</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" href="/users" data-path="/users">Users</a>
+                <span sec:authorize="!isAuthenticated()" class="nav-link ms-4 d-flex gap-2">
+                    <a href="/login" class="auth-btn">Login</a>
+                    <a href="/register-renter" class="auth-btn">Register</a>
+                </span>
+                <span sec:authorize="isAuthenticated()" class="nav-link ms-3">
+                    <form th:action="@{/logout}" method="post" class="m-0">
+                        <button type="submit" class="auth-btn">Sign Out</button>
+                    </form>
+                </span>
+            </nav>
+        </div>
+    </header>
 </body>
+
 </html>
