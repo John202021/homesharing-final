@@ -25,14 +25,17 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
 
+    private final EmailService emailService;
+
     private RoleRepository roleRepository;
 
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, BCryptPasswordEncoder passwordEncoder, EmailService emailService) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -58,6 +61,7 @@ public class UserService implements UserDetailsService {
         user.setRoles(roles);
 
         user = userRepository.save(user);
+        emailService.sendWelcomeMail(user.getEmail(), user.getFirstName());
         return user;
     }
 

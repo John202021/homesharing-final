@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.ChronoLocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class RentalService {
     private RentalRepository rentalRepository;
+    private EmailService emailService;
 
-    public RentalService(RentalRepository rentalRepository) {
+    public RentalService(RentalRepository rentalRepository, EmailService emailService) {
         this.rentalRepository = rentalRepository;
+        this.emailService = emailService;
     }
 
     @Transactional
@@ -76,6 +76,13 @@ public class RentalService {
         rental.setAccepted(true);
         rental.setRequestProcessedAt(LocalDateTime.now());
         rentalRepository.save(rental);
+        // Send email notification to renter
+        emailService.sendRentalRequestApprovedMail(
+                rental.getRenter().getEmail(),
+                rental.getRenter().getFirstName(),
+                rental.getHome(),
+                rental
+        );
     }
 
     @Transactional
@@ -87,6 +94,13 @@ public class RentalService {
         rental.setAccepted(false);
         rental.setRequestProcessedAt(LocalDateTime.now());
         rentalRepository.save(rental);
+        // Send email notification to renter
+        emailService.sendRentalRequestRejectedMail(
+                rental.getRenter().getEmail(),
+                rental.getRenter().getFirstName(),
+                rental.getHome(),
+                rental
+        );
     }
 
     @Transactional

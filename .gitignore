@@ -4,7 +4,8 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-
+export_git_ingest_style.sh
+minio_git_ingest_style.txt
 ### STS ###
 .apt_generated
 .classpath

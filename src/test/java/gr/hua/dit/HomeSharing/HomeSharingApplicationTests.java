@@ -5,6 +5,7 @@ import gr.hua.dit.HomeSharing.entities.User;
 import gr.hua.dit.HomeSharing.repositories.HomeCharacteristicsRepository;
 import gr.hua.dit.HomeSharing.repositories.RoleRepository;
 import gr.hua.dit.HomeSharing.repositories.UserRepository;
+import gr.hua.dit.HomeSharing.services.FileStorageService;
 import gr.hua.dit.HomeSharing.entities.CustomUserDetails;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
@@ -28,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.BEFORE_EACH_TEST_METHOD)
 class HomeSharingApplicationTests {
+	@MockitoBean
+	private FileStorageService fileStorageService;
 
 	@Autowired
 	private UserRepository userRepository;

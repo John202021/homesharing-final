@@ -26,6 +26,7 @@ public class UserController {
     private HomeOwnerService homeOwnerService;
 
 
+
     public UserController(UserService userService, RoleRepository roleRepository, RenterService renterService, HomeOwnerService homeOwnerService) {
         this.userService = userService;
         this.roleRepository = roleRepository;

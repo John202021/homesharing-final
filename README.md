@@ -14,6 +14,7 @@ HomeSharing is a Spring Boot 3 application that enables property owners to pub
 | Owner Dashboard | Interfaces for managing listings, reviewing booking requests, and inspecting upcoming or historical rentals. |
 | Demo Data | Automatic data seeding on first start‑up to support testing and demonstration. |
 | Health Checks | Spring Boot Actuator endpoint at `/actuator/health` for liveness and readiness probes. |
+| Notifications | Sends automatic welcome e-mails to users upon successful registration, using JavaMailSender and SMTP. |
 
 ---
 

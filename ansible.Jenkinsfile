@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     parameters {
+        booleanParam(name: 'INSTALL_MINIO', defaultValue: true, description: 'Install Minio')
         booleanParam(name: 'INSTALL_POSTGRES', defaultValue: true, description: 'Install PostgreSQL')
         booleanParam(name: 'INSTALL_SPRING', defaultValue: true, description: 'Install Spring Boot app')
     }
@@ -12,6 +13,18 @@ pipeline {
             sh '''
                 ansible -i ~/workspace/ansible-job/hosts.yaml -m ping dbserver-vm,appserver-vm
             '''
+            }
+        }
+
+        stage('Install Minio') {
+             when {
+                expression { return params.INSTALL_MINIO }
+            }
+            steps {
+                sh '''
+                    export ANSIBLE_CONFIG=~/workspace/ansible-job/ansible.cfg
+                    ansible-playbook -i ~/workspace/ansible-job/hosts.yaml -l dbserver-vm ~/workspace/ansible-job/playbooks/minio.yaml
+                '''
             }
         }
         

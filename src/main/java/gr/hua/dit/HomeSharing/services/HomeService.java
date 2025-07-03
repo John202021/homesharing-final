@@ -22,10 +22,13 @@ public class HomeService {
     private final HomeRepository homeRepository;
     private final HomeOwnerRepository homeOwnerRepository;
     private final RentalRepository rentalRepository;
-    public HomeService(HomeRepository homeRepository, HomeOwnerRepository homeOwnerRepository, RentalRepository rentalRepository) {
+    private final EmailService emailService;
+
+    public HomeService(HomeRepository homeRepository, HomeOwnerRepository homeOwnerRepository, RentalRepository rentalRepository, EmailService emailService) {
         this.homeRepository = homeRepository;
         this.homeOwnerRepository = homeOwnerRepository;
         this.rentalRepository = rentalRepository;
+        this.emailService = emailService;
     }
 
 
@@ -105,6 +108,12 @@ public class HomeService {
         home.setAccepted(true);
         home.setRequestProcessedAt(LocalDateTime.now());
         homeRepository.save(home);
+        // Notify the owner of the home request acceptance
+        emailService.sendHomeRequestAcceptedMail(
+                home.getHomeOwner().getEmail(),
+                home.getHomeOwner().getFirstName(),
+                home
+        );
     }
 
     @Transactional
@@ -117,6 +126,12 @@ public class HomeService {
         home.setAccepted(false);
         home.setRequestProcessedAt(LocalDateTime.now());
         homeRepository.save(home);
+        // Notify the owner of the home request rejection
+        emailService.sendHomeRequestRejectedMail(
+                home.getHomeOwner().getEmail(),
+                home.getHomeOwner().getFirstName(),
+                home
+        );
     }
 
     @Transactional
